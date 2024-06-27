@@ -1,0 +1,282 @@
+name: ducata
+networks:
+  - id: 421614 # Arbitrum_Sepolia
+    start_block: 56247217
+    contracts:
+      # DCM / DUCA / DUS -----------------------------------------------------------
+      - name: RebaseableToken
+        address: [
+            0x082e4cF436a20b26d20E78B21E794fc1a2C9464A, # DUCA
+            0xb031154F6336F7F517A28209a9A21C70F9966704, # DCM
+            0x5F7b3a6fB5F131f38B26Cfd0895272F0D50E2E2e # DUS
+          ]
+        handler: src/RebaseableToken.ts
+        events:
+          - event: LogRebase(uint256 totalSupply)
+            requiredEntities:
+              - name: RebaseableTokenEventsSummary
+          - event: Transfer(address indexed from, address indexed to, uint256 value)
+            requiredEntities:
+              - name: RebaseableTokenEventsSummary
+      # Vault --------------------------------------------------------------------
+      - name: Vault
+        address:
+          - 0x3AF78040a38C73Bc1AF2E1C4Ead531317326F8b8
+        handler: src/Vault.ts
+        events:
+          - event: AllowlistChanged(address newAllowlist)
+            requiredEntities:
+              - name: VaultEventsSummary
+          - event: AuthorizerChanged(address indexed newAuthorizer)
+            requiredEntities:
+              - name: VaultEventsSummary
+          - event: PausedStateChanged(bool paused)
+            requiredEntities:
+              - name: VaultEventsSummary
+          - event: PoolBalanceChanged(bytes32 indexed poolId, address indexed liquidityProvider, address[] tokens, int256[] deltas)
+            requiredEntities:
+              - name: VaultEventsSummary
+          - event: PoolBalanceManaged(bytes32 indexed poolId, address indexed assetManager, address indexed token, int256 cashDelta, int256 managedDelta)
+            requiredEntities:
+              - name: VaultEventsSummary
+          - event: PoolIdGenerated(bytes32 indexed poolId, address indexed poolAddress, uint8 specialization)
+            requiredEntities:
+              - name: VaultEventsSummary
+          - event: PoolRegistered(bytes32 indexed poolId)
+            requiredEntities:
+              - name: VaultEventsSummary
+          - event: Swap(bytes32 indexed poolId, address indexed tokenIn, address indexed tokenOut, uint256 amountIn, uint256 amountOut)
+            requiredEntities:
+              - name: VaultEventsSummary
+          - event: TokensRegistered(bytes32 indexed poolId, address[] tokens, address[] assetManagers)
+            requiredEntities:
+              - name: VaultEventsSummary
+          - event: FeeCharged(address indexed feeToken, address indexed payer, address indexed feeReceiver, uint256 feeAmount)
+            requiredEntities:
+              - name: VaultEventsSummary
+          - event: ExitFeeCharged(address indexed payer, uint256 feeAmount)
+            requiredEntities:
+              - name: VaultEventsSummary
+          - event: PoolTokenInfo(address indexed poolAddress, address[] tokens, uint256[] balances, uint256 lastChangeBlock)
+            requiredEntities:
+              - name: VaultEventsSummary
+          - event: ExcessTokenHandled(address tokenAddress, uint256 excessBalance)
+            requiredEntities:
+              - name: VaultEventsSummary
+
+      #ValidatorSwaps -----------------------------------------------------------
+      - name: ValidatorSwaps
+        address:
+          - 0xEAD52612edd91f9a9dE41154019bC34252aa5063
+        handler: src/ValidatorSwaps.ts
+        events:
+          - event: DcmSwapped(address indexed node, address indexed sender, address indexed receiver, uint256 dcmIn, uint256 ducaOut, uint256 fee)
+            requiredEntities:
+              - name: ValidatorSwapsEventsSummary
+          - event: DucaSwapped(address indexed node, address indexed sender, address indexed receiver, uint256 ducaIn, uint256 dcmOut, uint256 fee)
+            requiredEntities:
+              - name: ValidatorSwapsEventsSummary
+          - event: DucaToDusSwapped(address indexed node, address indexed sender, address indexed receiver, uint256 ducaIn, uint256 dusOut)
+            requiredEntities:
+              - name: ValidatorSwapsEventsSummary
+          - event: DusToDucaSwapped(address indexed node, address indexed sender, address indexed receiver, uint256 dusIn, uint256 ducaOut)
+            requiredEntities:
+              - name: ValidatorSwapsEventsSummary
+          - event: Initialized(uint8 version)
+            requiredEntities:
+              - name: ValidatorSwapsEventsSummary
+          - event: LiquidityProvided(address indexed node, address indexed sender, address indexed receiver, uint256 dcmIn, uint256 lpdOut)
+            requiredEntities:
+              - name: ValidatorSwapsEventsSummary
+          - event: LiquidityWithdrawn(address indexed node, address indexed sender, address indexed receiver, uint256 lpdIn, uint256 dcmOut)
+            requiredEntities:
+              - name: ValidatorSwapsEventsSummary
+          - event: ValidatorSwapsConfigurationChanged(string name, uint256 oldValue, uint256 newValue)
+            requiredEntities:
+              - name: ValidatorSwapsEventsSummary
+
+      # PeriodicTaskManager -----------------------------------------------------------
+      - name: PeriodicTaskManager
+        address:
+          - 0x99B553D7470C98192B6F635b117fb7C6fAe1B594
+        handler: src/PeriodicTaskManager.ts
+        events:
+          - event: RanContraction()
+            requiredEntities:
+              - name: PeriodicTaskManagerEventsSummary
+          - event: RanExecuteDucaStabilizerDown()
+            requiredEntities:
+              - name: PeriodicTaskManagerEventsSummary
+          - event: RanExecuteDucaStabilizerUp()
+            requiredEntities:
+              - name: PeriodicTaskManagerEventsSummary
+          - event: RanExecuteDusOptimizer()
+            requiredEntities:
+              - name: PeriodicTaskManagerEventsSummary
+          - event: RanExecuteDusStabilizer()
+            requiredEntities:
+              - name: PeriodicTaskManagerEventsSummary
+          - event: RanExecuteLpdStabilizer()
+            requiredEntities:
+              - name: PeriodicTaskManagerEventsSummary
+          - event: RanDcmStabilizer()
+            requiredEntities:
+              - name: PeriodicTaskManagerEventsSummary
+          - event: RanMinimuDcmLiquidity()
+            requiredEntities:
+              - name: PeriodicTaskManagerEventsSummary
+          - event: RanMinimumPoolSizeRebase()
+            requiredEntities:
+              - name: PeriodicTaskManagerEventsSummary
+          - event: RanPayOperatingFee()
+            requiredEntities:
+              - name: PeriodicTaskManagerEventsSummary
+          - event: RanProvideDucaToSeDus()
+            requiredEntities:
+              - name: PeriodicTaskManagerEventsSummary
+          - event: RanReduceFundingRatio()
+            requiredEntities:
+              - name: PeriodicTaskManagerEventsSummary
+          - event: RanSendExcessReceivedFee()
+            requiredEntities:
+              - name: PeriodicTaskManagerEventsSummary
+          - event: RanStabilityFee()
+            requiredEntities:
+              - name: PeriodicTaskManagerEventsSummary
+          - event: RanStabilityFeeUpdate()
+            requiredEntities:
+              - name: PeriodicTaskManagerEventsSummary
+          - event: RanTopUpOperatingFundForProtocolFunding()
+            requiredEntities:
+              - name: PeriodicTaskManagerEventsSummary
+          - event: RanTreasuryFee()
+            requiredEntities:
+              - name: PeriodicTaskManagerEventsSummary
+          - event: RanUpdateMarketValues()
+            requiredEntities:
+              - name: PeriodicTaskManagerEventsSummary
+          - event: RanYield()
+            requiredEntities:
+              - name: PeriodicTaskManagerEventsSummary
+          - event: RanExecuteDusSupplyIncreaser()
+            requiredEntities:
+              - name: PeriodicTaskManagerEventsSummary        
+
+      # PolicyData -----------------------------------------------------------
+      - name: policyData
+        address:
+          - 0x315E89614a6Aba229A9f8022728319c86Cc91409
+        handler: src/PolicyData.ts
+        events:
+          - event: MA200Reset(uint256 parValue, uint256 maDay1, uint256 dcmMarketValueAllTimeHigh, uint256 dailyAverageProcessed)
+            requiredEntities:
+              - name: PolicyDataEventsSummary
+          - event: NewDailyAverageValue(uint256 value, uint256 average)
+            requiredEntities:
+              - name: PolicyDataEventsSummary
+          - event: NewDcmUsdcMvAllTimeHigh(uint256 dcmUsdcMvAllTimeHigh)
+            requiredEntities:
+              - name: PolicyDataEventsSummary
+          - event: SwapDataWithExchangeData(uint256 indexed nonce, address node, (uint256,uint256,uint256,uint256) nodeData)
+            requiredEntities:
+              - name: PolicyDataEventsSummary
+          - event: UpdatedMa200(uint256 value, uint256 ma200Average)
+            requiredEntities:
+              - name: PolicyDataEventsSummary
+
+        # TheMint -----------------------------------------------------------
+      - name: theMint
+        address:
+          - 0x37659a0a0b78258Ba3859F6D6424Fd247D39B79F
+        handler: src/TheMint.ts
+        events:
+          - event: CalibratedParValue(uint256 dcmReserveDelta, uint256 ducaTotalSupply, uint256 currentMA200, uint256 dcmBalanceReserve)
+            requiredEntities:
+              - name: TheMintEventsSummary
+          - event: Contraction(uint256 dcmAmount, uint256 ducaAmount, uint256 ducaStabilityPoolBalance, uint256 dcmParValue, uint256 contractionPercentage)
+            requiredEntities:
+              - name: TheMintEventsSummary
+          - event: DcmBurnStabilityFee(uint256 halfDcmFee)
+            requiredEntities:
+              - name: TheMintEventsSummary
+          - event: IncreaseToMinimumPoolSize(uint256 initialDcmLiquidity, uint256 reserveSize, uint256 dcmAddedToStabilityPool)
+            requiredEntities:
+              - name: TheMintEventsSummary
+          - event: PaidOperatingFee(uint256 feeInUsd, uint256 operatingFeePercentage, uint256 dcmOperatingFee)
+            requiredEntities:
+              - name: TheMintEventsSummary
+          - event: ParValueOverwriteStopped()
+            requiredEntities:
+              - name: TheMintEventsSummary
+          - event: ParValueOverwritten(uint256 parValue)
+            requiredEntities:
+              - name: TheMintEventsSummary
+          - event: StabilityFee(uint256 totalDcmSupply, uint256 openMarketDcmSupply, int256 stabilityFeePercentage, uint256 totalDcmFee, uint256 treasurySeigniorageFee)
+            requiredEntities:
+              - name: TheMintEventsSummary
+          - event: TreasuryFee(uint256 dcmTreasuryFeeInDcm, uint256 dcmPaidFromStabilityPool, uint256 effectiveTreasuryFeePercentage, uint256 treasuryFeeApy, bool treasuryFeeCapped)
+            requiredEntities:
+              - name: TheMintEventsSummary
+          - event: YieldEvent(uint256 totalDucaSupply, uint256 openMarketDucaSupply, uint256 ducaAmountDistributed, uint256 dcmAmountTransferred, uint256 yieldPercentageUsed, uint256 dcmBalanceTreasury, uint256 dcmParValue)
+            requiredEntities:
+              - name: TheMintEventsSummary
+          - event: updatedDucaYieldApyPercentage(uint256 newApy, uint256 newYieldFeePeriods, uint256 newYieldPeriods, uint256 effectiveYieldPercentage)
+            requiredEntities:
+              - name: TheMintEventsSummary
+          - event: DucaToSeDusAdded(uint256 ducaAmountSent, uint256 dcmAmountUsed)
+            requiredEntities:
+              - name: TheMintEventsSummary
+          - event: DucaFromSeDusRemoved(uint256 ducaAmountBurned, uint256 dcmAmountTransferred)
+            requiredEntities:
+              - name: TheMintEventsSummary
+          - event: StabilityFeeUpdated(int256 stabilityFeeDeltaPoolSize, int256 stabilityFeePercentage, uint256 currentPoolRatio, uint256 targetPoolRatio)
+            requiredEntities:
+              - name: TheMintEventsSummary
+          - event: OpenMarketContraction(uint256 contractionAmount, int256 rebaseDelta, uint256 openMarketContractionPercentage)
+            requiredEntities:
+              - name: TheMintEventsSummary
+          - event: RebaseToMinimumPoolSize(uint256 dcmAddedToStabilityPool)
+            requiredEntities:
+              - name: TheMintEventsSummary
+
+        # AMO -----------------------------------------------------------
+      - name: amo
+        address:
+          - 0x610FD7F971256F1F7804E2A29d8EA3FF3e3Ad686
+        handler: src/Amo.ts
+        events:
+          - event: AssetDeltasOnDmmSwap(address[] assets, int256[] assetDeltas)
+            requiredEntities:
+              - name: AmoEventsSummary
+          - event: AssetManagerPutInFunds(bytes32 poolId, address tokenAddress, uint256 amount)
+            requiredEntities:
+              - name: AmoEventsSummary
+          - event: AssetManagerTookOutFunds(bytes32 poolId, address tokenAddress, uint256 amount)
+            requiredEntities:
+              - name: AmoEventsSummary
+          - event: TokensChangedInCore(address tokenIn, address tokenOut, uint256 amount, uint256 amountOut)
+            requiredEntities:
+              - name: AmoEventsSummary
+
+        # DusReserve -----------------------------------------------------------
+      - name: dusReserve
+        address:
+          - 0x0727f14C3866b5375d028241E7fBDE4dF1962D58
+        handler: src/DusReserve.ts
+        events:
+          - event: DusYield(uint256 amount, uint256 yieldPercentage)
+            requiredEntities:
+              - name: DusReserveEventsSummary
+
+        # AmoDusUsdcSupplyManager ----------------------------------------------------------    
+      - name: amoDusUsdcSupplyManager
+        address:
+          - 0x432f5FA9e822Bf6295651Bd921f6E43492902929
+        handler: src/AmoDusUsdcSupplyManager.ts
+        events:
+          - event: DusUsdcSupplyManagerExecutedIncreasingDus(uint256 ducaReceived, uint256 dusIncreased, uint256 usdcDecreased, uint256 dcmSent)
+            requiredEntities:
+              - name: AmoDusUsdcSupplyManagerEventsSummary
+          - event: DusUsdcSupplyManagerExecutedDecreasingDus(uint256 dcmReceived, uint256 usdcIncreased, uint256 dusDecreased, uint256 ducaSent)
+            requiredEntities:
+              - name: AmoDusUsdcSupplyManagerEventsSummary

@@ -1,0 +1,912 @@
+# DCM/DUCA/DUS
+type RebaseableTokenEventsSummary {
+  id: ID!
+  logRebase: [LogRebase!]! @derivedFrom(field: "rebaseableTokenEventsSummary")
+  logRebasesCount: BigInt!
+  transfer: [Transfer!]! @derivedFrom(field: "rebaseableTokenEventsSummary")
+  transfersCount: BigInt!
+}
+
+type LogRebase {
+  id: ID!
+  totalSupply: BigInt!
+  token: String!
+  blockTimestamp: Int!
+  rebaseableTokenEventsSummary: String!
+}
+
+type Transfer {
+  id: ID!
+  from: String!
+  to: String!
+  value: BigInt!
+  token: String!
+  blockTimestamp: Int!
+  rebaseableTokenEventsSummary: String!
+}
+
+# Vault -------------------------------------------------
+type VaultEventsSummary {
+  id: ID!
+  allowlistChanged: [AllowlistChanged!]!
+    @derivedFrom(field: "vaultEventsSummary")
+  allowlistChangedsCount: BigInt!
+  authorizerChanged: [AuthorizerChanged!]!
+    @derivedFrom(field: "vaultEventsSummary")
+  authorizerChangedsCount: BigInt!
+  pausedStateChanged: [PausedStateChanged!]!
+    @derivedFrom(field: "vaultEventsSummary")
+  pausedStateChangedsCount: BigInt!
+  poolBalanceChanged: [PoolBalanceChanged!]!
+    @derivedFrom(field: "vaultEventsSummary")
+  poolBalanceChangedsCount: BigInt!
+  poolBalanceManaged: [PoolBalanceManaged!]!
+    @derivedFrom(field: "vaultEventsSummary")
+  poolBalanceManagedsCount: BigInt!
+  poolIdGenerated: [PoolIdGenerated!]! @derivedFrom(field: "vaultEventsSummary")
+  poolIdGeneratedsCount: BigInt!
+  poolRegistered: [PoolRegistered!]! @derivedFrom(field: "vaultEventsSummary")
+  poolRegisteredsCount: BigInt!
+  swap: [Swap!]! @derivedFrom(field: "vaultEventsSummary")
+  swapsCount: BigInt!
+  feeCharged: [FeeCharged!]! @derivedFrom(field: "vaultEventsSummary")
+  feeChargedsCount: BigInt!
+  exitFeeCharged: [ExitFeeCharged!]! @derivedFrom(field: "vaultEventsSummary")
+  exitFeeChargedsCount: BigInt!
+  poolTokenInfo: [PoolTokenInfo!]! @derivedFrom(field: "vaultEventsSummary")
+  poolTokenInfosCount: BigInt!
+  excessTokenHandled: [ExcessTokenHandled!]!
+    @derivedFrom(field: "vaultEventsSummary")
+  excessTokenHandledCount: BigInt!
+  tokensRegistered: [TokensRegistered!]!
+    @derivedFrom(field: "vaultEventsSummary")
+  tokensRegisteredsCount: BigInt!
+}
+
+type AllowlistChanged {
+  id: ID!
+  newAllowlist: String!
+  blockTimestamp: Int!
+  vaultEventsSummary: String!
+}
+
+type AuthorizerChanged {
+  id: ID!
+  newAuthorizer: String!
+  blockTimestamp: Int!
+  vaultEventsSummary: String!
+}
+
+type PausedStateChanged {
+  id: ID!
+  paused: Boolean!
+  blockTimestamp: Int!
+  vaultEventsSummary: String!
+}
+
+type PoolBalanceChanged {
+  id: ID!
+  poolName: String!
+  poolId: String!
+  liquidityProvider: String!
+  tokenA: String!
+  tokenB: String!
+  tokenADelta: BigInt!
+  tokenBDelta: BigInt!
+  blockTimestamp: Int!
+  transactionHash: String!
+  vaultEventsSummary: String!
+}
+
+type PoolBalanceManaged {
+  id: ID!
+  poolName: String!
+  poolId: String!
+  assetManager: String!
+  token: String!
+  cashDelta: BigInt!
+  managedDelta: BigInt!
+  blockTimestamp: Int!
+  transactionHash: String!
+  vaultEventsSummary: String!
+}
+
+type PoolIdGenerated {
+  id: ID!
+  poolId: String!
+  poolAddress: String!
+  specialization: BigInt!
+  blockTimestamp: Int!
+  vaultEventsSummary: String!
+}
+
+type PoolRegistered {
+  id: ID!
+  poolName: String!
+  poolId: String!
+  blockTimestamp: Int!
+  vaultEventsSummary: String!
+}
+
+type Swap {
+  id: ID!
+  poolName: String!
+  poolId: String!
+  tokenIn: String!
+  tokenOut: String!
+  amountIn: BigInt!
+  amountOut: BigInt!
+  blockTimestamp: Int!
+  transactionHash: String!
+  vaultEventsSummary: String!
+}
+
+type TokensRegistered {
+  id: ID!
+  poolName: String!
+  poolId: String!
+  tokenA: String!
+  tokenB: String!
+  assetManagers: [String!]!
+  blockTimestamp: Int!
+  vaultEventsSummary: String!
+}
+
+type FeeCharged {
+  id: ID!
+  feeToken: String!
+  payer: String!
+  feeReceiver: String!
+  feeAmount: BigInt!
+  transactionHash: String!
+  blockTimestamp: Int!
+  vaultEventsSummary: String!
+}
+
+type ExitFeeCharged {
+  id: ID!
+  payer: String!
+  feeAmount: BigInt!
+  transactionHash: String!
+  blockTimestamp: Int!
+  vaultEventsSummary: String!
+}
+
+type PoolTokenInfo {
+  id: ID!
+  poolAddress: String!
+  tokenAAddress: String!
+  tokenBAddress: String!
+  tokenCAddress: String
+  tokenA: String!
+  tokenB: String!
+  tokenC: String
+  balancesA: BigInt!
+  balancesB: BigInt!
+  balancesC: BigInt
+  lastChangeBlock: Int!
+  transactionHash: String!
+  blockTimestamp: Int!
+  vaultEventsSummary: String!
+}
+
+type ExcessTokenHandled {
+  id: ID!
+  tokenAddress: String!
+  excessBalance: BigInt!
+  transactionHash: String!
+  blockTimestamp: Int!
+  vaultEventsSummary: String!
+}
+
+# VALIDATOR SWAPS ---------------------------------------------
+
+type ValidatorSwapsEventsSummary {
+  id: ID!
+  dcmSwapped: [DcmSwapped!]! @derivedFrom(field: "validatorSwapsEventsSummary")
+  dcmSwappedsCount: BigInt!
+  ducaSwapped: [DucaSwapped!]!
+    @derivedFrom(field: "validatorSwapsEventsSummary")
+  ducaSwappedsCount: BigInt!
+  ducaToDusSwapped: [DucaToDusSwapped!]!
+    @derivedFrom(field: "validatorSwapsEventsSummary")
+  ducaToDusSwappedsCount: BigInt!
+  dusToDucaSwapped: [DusToDucaSwapped!]!
+    @derivedFrom(field: "validatorSwapsEventsSummary")
+  dusToDucaSwappedsCount: BigInt!
+  initialized: [Initialized!]!
+    @derivedFrom(field: "validatorSwapsEventsSummary")
+  initializedsCount: BigInt!
+  liquidityProvided: [LiquidityProvided!]!
+    @derivedFrom(field: "validatorSwapsEventsSummary")
+  liquidityProvidedsCount: BigInt!
+  liquidityWithdrawn: [LiquidityWithdrawn!]!
+    @derivedFrom(field: "validatorSwapsEventsSummary")
+  liquidityWithdrawnsCount: BigInt!
+  validatorSwapsConfigurationChanged: [ValidatorSwapsConfigurationChanged!]!
+    @derivedFrom(field: "validatorSwapsEventsSummary")
+  validatorSwapsConfigurationChangedsCount: BigInt!
+}
+type DcmSwapped {
+  id: ID!
+  node: String!
+  sender: String!
+  receiver: String!
+  dcmIn: BigInt!
+  ducaOut: BigInt!
+  fee: BigInt!
+  blockTimestamp: Int!
+  transactionHash: String!
+  validatorSwapsEventsSummary: String!
+}
+
+type DucaSwapped {
+  id: ID!
+  node: String!
+  sender: String!
+  receiver: String!
+  ducaIn: BigInt!
+  dcmOut: BigInt!
+  fee: BigInt!
+  blockTimestamp: Int!
+  transactionHash: String!
+  validatorSwapsEventsSummary: String!
+}
+
+type DucaToDusSwapped {
+  id: ID!
+  node: String!
+  sender: String!
+  receiver: String!
+  ducaIn: BigInt!
+  dusOut: BigInt!
+  blockTimestamp: Int!
+  transactionHash: String!
+  validatorSwapsEventsSummary: String!
+}
+
+type DusToDucaSwapped {
+  id: ID!
+  node: String!
+  sender: String!
+  receiver: String!
+  dusIn: BigInt!
+  ducaOut: BigInt!
+  blockTimestamp: Int!
+  transactionHash: String!
+  validatorSwapsEventsSummary: String!
+}
+
+type Initialized {
+  id: ID!
+  version: BigInt!
+  blockTimestamp: Int!
+  validatorSwapsEventsSummary: String!
+}
+
+type LiquidityProvided {
+  id: ID!
+  node: String!
+  sender: String!
+  receiver: String!
+  dcmIn: BigInt!
+  lpdOut: BigInt!
+  blockTimestamp: Int!
+  transactionHash: String!
+  validatorSwapsEventsSummary: String!
+}
+
+type LiquidityWithdrawn {
+  id: ID!
+  node: String!
+  sender: String!
+  receiver: String!
+  lpdIn: BigInt!
+  dcmOut: BigInt!
+  blockTimestamp: Int!
+  transactionHash: String!
+  validatorSwapsEventsSummary: String!
+}
+
+type Upgraded {
+  id: ID!
+  implementation: String!
+  blockTimestamp: Int!
+  validatorSwapsEventsSummary: String!
+}
+
+type ValidatorSwapsConfigurationChanged {
+  id: ID!
+  name: String!
+  oldValue: BigInt!
+  newValue: BigInt!
+  blockTimestamp: Int!
+  validatorSwapsEventsSummary: String!
+}
+
+# STATE REGISTRY -------------
+
+type StateRegistryEventsSummary {
+  id: ID!
+  stateUpdated: [StateUpdated!]!
+    @derivedFrom(field: "stateRegistryEventsSummary")
+  stateUpdatedsCount: BigInt!
+}
+
+type StateUpdated {
+  id: ID!
+  eventTimestamp: BigInt!
+  stabilityPoolDucaBalance: BigInt!
+  stabilityPoolDcmBalance: BigInt!
+  reserveDcmBalance: BigInt!
+  ducaSupply: BigInt!
+  lpDucaSupply: BigInt!
+  key: String!
+  timestamp: BigInt!
+  blockTimestamp: Int!
+  stateRegistryEventsSummary: String!
+}
+
+# PERIODIC TASK MANAGER -------------------------------------
+type PeriodicTaskManagerEventsSummary {
+  id: ID!
+  ranContraction: [RanContraction!]!
+    @derivedFrom(field: "periodicTaskManagerEventsSummary")
+  ranContractionsCount: BigInt!
+  ranExecuteDucaStabilizerDown: [RanExecuteDucaStabilizerDown!]!
+    @derivedFrom(field: "periodicTaskManagerEventsSummary")
+  ranExecuteDucaStabilizerDownsCount: BigInt!
+  ranExecuteDucaStabilizerUp: [RanExecuteDucaStabilizerUp!]!
+    @derivedFrom(field: "periodicTaskManagerEventsSummary")
+  ranExecuteDucaStabilizerUpsCount: BigInt!
+  ranExecuteDusOptimizer: [RanExecuteDusOptimizer!]!
+    @derivedFrom(field: "periodicTaskManagerEventsSummary")
+  ranExecuteDusOptimizersCount: BigInt!
+  ranExecuteDusStabilizer: [RanExecuteDusStabilizer!]!
+    @derivedFrom(field: "periodicTaskManagerEventsSummary")
+  ranExecuteDusStabilizersCount: BigInt!
+  ranExecuteLpdStabilizer: [RanExecuteLpdStabilizer!]!
+    @derivedFrom(field: "periodicTaskManagerEventsSummary")
+  ranExecuteLpdStabilizersCount: BigInt!
+  ranDcmStabilizer: [RanDcmStabilizer!]!
+    @derivedFrom(field: "periodicTaskManagerEventsSummary")
+  ranDcmStabilizersCount: BigInt!
+  ranMinimumPoolSizeRebase: [RanMinimumPoolSizeRebase!]!
+    @derivedFrom(field: "periodicTaskManagerEventsSummary")
+  ranMinimumPoolSizeRebasesCount: BigInt!
+  ranPayOperatingFee: [RanPayOperatingFee!]!
+    @derivedFrom(field: "periodicTaskManagerEventsSummary")
+  ranPayOperatingFeesCount: BigInt!
+  ranProvideDucaToSeDus: [RanProvideDucaToSeDus!]!
+    @derivedFrom(field: "periodicTaskManagerEventsSummary")
+  ranProvideDucaToSeDussCount: BigInt!
+  ranReduceFundingRatio: [RanReduceFundingRatio!]!
+    @derivedFrom(field: "periodicTaskManagerEventsSummary")
+  ranReduceFundingRatiosCount: BigInt!
+  ranSendExcessReceivedFee: [RanSendExcessReceivedFee!]!
+    @derivedFrom(field: "periodicTaskManagerEventsSummary")
+  ranSendExcessReceivedFeesCount: BigInt!
+  ranStabilityFee: [RanStabilityFee!]!
+    @derivedFrom(field: "periodicTaskManagerEventsSummary")
+  ranStabilityFeesCount: BigInt!
+  ranStabilityFeeUpdate: [RanStabilityFeeUpdate!]!
+    @derivedFrom(field: "periodicTaskManagerEventsSummary")
+  ranStabilityFeeUpdatesCount: BigInt!
+  ranTopUpOperatingFundForProtocolFunding: [RanTopUpOperatingFundForProtocolFunding!]!
+    @derivedFrom(field: "periodicTaskManagerEventsSummary")
+  ranTopUpOperatingFundForProtocolFundingsCount: BigInt!
+  ranTreasuryFee: [RanTreasuryFee!]!
+    @derivedFrom(field: "periodicTaskManagerEventsSummary")
+  ranTreasuryFeesCount: BigInt!
+  ranUpdateMarketValues: [RanUpdateMarketValues!]!
+    @derivedFrom(field: "periodicTaskManagerEventsSummary")
+  ranUpdateMarketValuessCount: BigInt!
+  ranYield: [RanYield!]! @derivedFrom(field: "periodicTaskManagerEventsSummary")
+  ranYieldsCount: BigInt!
+  ranExecuteDusSupplyIncreaser: [RanExecuteDusSupplyIncreaser!]!
+    @derivedFrom(field: "periodicTaskManagerEventsSummary")
+  ranExecuteDusSupplyIncreasersCount: BigInt!
+}
+
+type RanContraction {
+  id: ID!
+  blockTimestamp: Int!
+  transactionHash: String!
+  periodicTaskManagerEventsSummary: String!
+}
+
+type RanExecuteDucaStabilizerDown {
+  id: ID!
+  blockTimestamp: Int!
+  transactionHash: String!
+  periodicTaskManagerEventsSummary: String!
+}
+
+type RanExecuteDucaStabilizerUp {
+  id: ID!
+  blockTimestamp: Int!
+  transactionHash: String!
+  periodicTaskManagerEventsSummary: String!
+}
+
+type RanExecuteDusOptimizer {
+  id: ID!
+  blockTimestamp: Int!
+  transactionHash: String!
+  periodicTaskManagerEventsSummary: String!
+}
+
+type RanExecuteDusStabilizer {
+  id: ID!
+  blockTimestamp: Int!
+  transactionHash: String!
+  periodicTaskManagerEventsSummary: String!
+}
+
+type RanExecuteLpdStabilizer {
+  id: ID!
+  blockTimestamp: Int!
+  transactionHash: String!
+  periodicTaskManagerEventsSummary: String!
+}
+
+type RanDcmStabilizer {
+  id: ID!
+  blockTimestamp: Int!
+  transactionHash: String!
+  periodicTaskManagerEventsSummary: String!
+}
+
+type RanMinimumPoolSizeRebase {
+  id: ID!
+  blockTimestamp: Int!
+  transactionHash: String!
+  periodicTaskManagerEventsSummary: String!
+}
+
+type RanPayOperatingFee {
+  id: ID!
+  blockTimestamp: Int!
+  transactionHash: String!
+  periodicTaskManagerEventsSummary: String!
+}
+
+type RanProvideDucaToSeDus {
+  id: ID!
+  blockTimestamp: Int!
+  transactionHash: String!
+  periodicTaskManagerEventsSummary: String!
+}
+
+type RanReduceFundingRatio {
+  id: ID!
+  blockTimestamp: Int!
+  transactionHash: String!
+  periodicTaskManagerEventsSummary: String!
+}
+
+type RanSendExcessReceivedFee {
+  id: ID!
+  blockTimestamp: Int!
+  transactionHash: String!
+  periodicTaskManagerEventsSummary: String!
+}
+
+type RanStabilityFee {
+  id: ID!
+  blockTimestamp: Int!
+  transactionHash: String!
+  periodicTaskManagerEventsSummary: String!
+}
+
+type RanStabilityFeeUpdate {
+  id: ID!
+  blockTimestamp: Int!
+  transactionHash: String!
+  periodicTaskManagerEventsSummary: String!
+}
+
+type RanTopUpOperatingFundForProtocolFunding {
+  id: ID!
+  blockTimestamp: Int!
+  transactionHash: String!
+  periodicTaskManagerEventsSummary: String!
+}
+
+type RanTreasuryFee {
+  id: ID!
+  periodicTaskManagerEventsSummary: String!
+  transactionHash: String!
+  blockTimestamp: Int!
+}
+
+type RanUpdateMarketValues {
+  id: ID!
+  blockTimestamp: Int!
+  transactionHash: String!
+  periodicTaskManagerEventsSummary: String!
+}
+
+type RanExecuteDusSupplyIncreaser {
+  id: ID!
+  blockTimestamp: Int!
+  transactionHash: String!
+  periodicTaskManagerEventsSummary: String!
+}
+
+type RanYield {
+  id: ID!
+  blockTimestamp: Int!
+  transactionHash: String!
+  periodicTaskManagerEventsSummary: String!
+}
+
+type PolicyDataEventsSummary {
+  id: ID!
+  mA200Reset: [MA200Reset!]! @derivedFrom(field: "policyDataEventsSummary")
+  mA200ResetsCount: BigInt!
+  newDailyAverageValue: [NewDailyAverageValue!]!
+    @derivedFrom(field: "policyDataEventsSummary")
+  newDailyAverageValuesCount: BigInt!
+  newDcmUsdcMvAllTimeHigh: [NewDcmUsdcMvAllTimeHigh!]!
+    @derivedFrom(field: "policyDataEventsSummary")
+  newDcmUsdcMvAllTimeHighCount: BigInt!
+  swapDataWithExchangeData: [SwapDataWithExchangeData!]!
+    @derivedFrom(field: "policyDataEventsSummary")
+  swapDataWithExchangeDatasCount: BigInt!
+  updatedMa200: [UpdatedMa200!]! @derivedFrom(field: "policyDataEventsSummary")
+  updatedMa200sCount: BigInt!
+}
+
+type MA200Reset {
+  id: ID!
+  parValue: BigInt!
+  maDay1: BigInt!
+  dcmMarketValueAllTimeHigh: BigInt!
+  dailyAverageProcessed: BigInt!
+  blockTimestamp: Int!
+  policyDataEventsSummary: String!
+}
+
+type NewDailyAverageValue {
+  id: ID!
+  value: BigInt!
+  average: BigInt!
+  blockTimestamp: Int!
+  policyDataEventsSummary: String!
+}
+
+type NewDcmUsdcMvAllTimeHigh {
+  id: ID!
+  dcmUsdcMvAllTimeHigh: BigInt!
+  blockTimestamp: Int!
+  policyDataEventsSummary: String!
+}
+
+type SwapDataWithExchangeData {
+  id: ID!
+  nonce: BigInt!
+  node: String!
+  dcmMarketValue: BigInt!
+  ducaMarketValue: BigInt!
+  ducaExchangeValue: BigInt!
+  dusMarketValue: BigInt!
+  blockTimestamp: Int!
+  policyDataEventsSummary: String!
+}
+
+type UpdatedMa200 {
+  id: ID!
+  value: BigInt!
+  ma200Average: BigInt!
+  blockTimestamp: Int!
+  policyDataEventsSummary: String!
+}
+
+type TheMintEventsSummary {
+  id: ID!
+  calibratedParValue: [CalibratedParValue!]!
+    @derivedFrom(field: "theMintEventsSummary")
+  calibratedParValuesCount: BigInt!
+  contraction: [Contraction!]! @derivedFrom(field: "theMintEventsSummary")
+  contractionsCount: BigInt!
+  dcmBurnStabilityFee: [DcmBurnStabilityFee!]!
+    @derivedFrom(field: "theMintEventsSummary")
+  dcmBurnStabilityFeesCount: BigInt!
+  increaseToMinimumPoolSize: [IncreaseToMinimumPoolSize!]!
+    @derivedFrom(field: "theMintEventsSummary")
+  increaseToMinimumPoolSizesCount: BigInt!
+  paidOperatingFee: [PaidOperatingFee!]!
+    @derivedFrom(field: "theMintEventsSummary")
+  paidOperatingFeesCount: BigInt!
+  parValueOverwriteStopped: [ParValueOverwriteStopped!]!
+    @derivedFrom(field: "theMintEventsSummary")
+  parValueOverwriteStoppedsCount: BigInt!
+  parValueOverwritten: [ParValueOverwritten!]!
+    @derivedFrom(field: "theMintEventsSummary")
+  parValueOverwrittensCount: BigInt!
+  stabilityFee: [StabilityFee!]! @derivedFrom(field: "theMintEventsSummary")
+  stabilityFeesCount: BigInt!
+  treasuryFee: [TreasuryFee!]! @derivedFrom(field: "theMintEventsSummary")
+  treasuryFeesCount: BigInt!
+  yieldEvent: [YieldEvent!]! @derivedFrom(field: "theMintEventsSummary")
+  yieldEventsCount: BigInt!
+  updatedDucaYieldApyPercentage: [UpdatedDucaYieldApyPercentage!]!
+    @derivedFrom(field: "theMintEventsSummary")
+  updatedDucaYieldApyPercentagesCount: BigInt!
+  ducaFromSeDusRemoved: [DucaFromSeDusRemoved!]!
+    @derivedFrom(field: "theMintEventsSummary")
+  ducaFromSeDusRemovedCount: BigInt!
+  ducaToSeDusAdded: [DucaToSeDusAdded!]!
+    @derivedFrom(field: "theMintEventsSummary")
+  ducaToSeDusAddedCount: BigInt!
+  stabilityFeeUpdated: [StabilityFeeUpdated!]!
+    @derivedFrom(field: "theMintEventsSummary")
+  stabilityFeeUpdatedsCount: BigInt!
+  openMarketContraction: [OpenMarketContraction!]!
+    @derivedFrom(field: "theMintEventsSummary")
+  openMarketContractionsCount: BigInt!
+  rebaseToMinimumPoolSize: [RebaseToMinimumPoolSize!]!
+    @derivedFrom(field: "theMintEventsSummary")
+  rebaseToMinimumPoolSizesCount: BigInt!
+}
+
+type StabilityFeeUpdated {
+  id: ID!
+  stabilityFeeDeltaPoolSize: BigInt!
+  stabilityFeePercentage: BigInt!
+  currentPoolRatio: BigInt!
+  targetPoolRatio: BigInt!
+  blockTimestamp: Int!
+  theMintEventsSummary: String!
+}
+
+type CalibratedParValue {
+  id: ID!
+  dcmReserveDelta: BigInt!
+  ducaTotalSupply: BigInt!
+  currentMA200: BigInt!
+  dcmBalanceReserve: BigInt!
+  theMintEventsSummary: String!
+  blockTimestamp: Int!
+}
+
+type Contraction {
+  id: ID!
+  dcmAmount: BigInt!
+  ducaAmount: BigInt!
+  ducaStabilityPoolBalance: BigInt!
+  dcmParValue: BigInt!
+  contractionPercentage: BigInt!
+  blockTimestamp: Int!
+  theMintEventsSummary: String!
+}
+
+type DcmBurnStabilityFee {
+  id: ID!
+  halfDcmFee: BigInt!
+  blockTimestamp: Int!
+  theMintEventsSummary: String!
+}
+
+type IncreaseToMinimumPoolSize {
+  id: ID!
+  initialDcmLiquidity: BigInt!
+  reserveSize: BigInt!
+  dcmAddedToStabilityPool: BigInt!
+  blockTimestamp: Int!
+  theMintEventsSummary: String!
+}
+
+type PaidOperatingFee {
+  id: ID!
+  feeInUsd: BigInt!
+  operatingFeePercentage: BigInt!
+  dcmOperatingFee: BigInt!
+  blockTimestamp: Int!
+  theMintEventsSummary: String!
+}
+
+type ParValueOverwriteStopped {
+  id: ID!
+  blockTimestamp: Int!
+  theMintEventsSummary: String!
+}
+
+type ParValueOverwritten {
+  id: ID!
+  parValue: BigInt!
+  blockTimestamp: Int!
+  theMintEventsSummary: String!
+}
+
+type StabilityFee {
+  id: ID!
+  totalDcmSupply: BigInt!
+  openMarketDcmSupply: BigInt!
+  stabilityFeePercentage: BigInt!
+  totalDcmFee: BigInt!
+  treasurySeigniorageFee: BigInt!
+  blockTimestamp: Int!
+  theMintEventsSummary: String!
+}
+
+type TreasuryFee {
+  id: ID!
+  dcmTreasuryFeeInDcm: BigInt!
+  dcmPaidFromStabilityPool: BigInt!
+  effectiveTreasuryFeePercentage: BigInt!
+  treasuryFeeApy: BigInt!
+  treasuryFeeCapped: Boolean!
+  blockTimestamp: Int!
+  theMintEventsSummary: String!
+}
+
+type YieldEvent {
+  id: ID!
+  totalDucaSupply: BigInt!
+  openMarketDucaSupply: BigInt!
+  ducaAmountDistributed: BigInt!
+  dcmAmountTransferred: BigInt!
+  yieldPercentageUsed: BigInt!
+  dcmBalanceTreasury: BigInt!
+  dcmParValue: BigInt!
+  transactionHash: String!
+  blockTimestamp: Int!
+  theMintEventsSummary: String!
+}
+
+type UpdatedDucaYieldApyPercentage {
+  id: ID!
+  newApy: BigInt!
+  newYieldFeePeriods: BigInt!
+  newYieldPeriods: BigInt!
+  effectiveYieldPercentage: BigInt!
+  blockTimestamp: Int!
+  theMintEventsSummary: String!
+}
+
+type DucaFromSeDusRemoved {
+  id: ID!
+  ducaAmountBurned: BigInt!
+  dcmAmountTransferred: BigInt!
+  blockTimestamp: Int!
+  theMintEventsSummary: String!
+}
+
+type DucaToSeDusAdded {
+  id: ID!
+  ducaAmountSent: BigInt!
+  dcmAmountUsed: BigInt!
+  blockTimestamp: Int!
+  theMintEventsSummary: String!
+}
+
+type OpenMarketContraction {
+  id: ID!
+  contractionAmount: BigInt!
+  rebaseDelta: BigInt!
+  openMarketContractionPercentage: BigInt!
+  transactionHash: String!
+  block: Int!
+  blockTimestamp: Int!
+  theMintEventsSummary: String!
+}
+
+type RebaseToMinimumPoolSize {
+  id: ID!
+  dcmAddedToStabilityPool: BigInt!
+  transactionHash: String!
+  block: Int!
+  blockTimestamp: Int!
+  theMintEventsSummary: String!
+}
+
+#  AMO -------------------------------------------------
+type AmoEventsSummary {
+  id: ID!
+  assetDeltasOnDmmSwap: [AssetDeltasOnDmmSwap!]!
+    @derivedFrom(field: "amoEventsSummary")
+  assetDeltasOnDmmSwapsCount: BigInt!
+  assetManagerPutInFunds: [AssetManagerPutInFunds!]!
+    @derivedFrom(field: "amoEventsSummary")
+  assetManagerPutInFundssCount: BigInt!
+  assetManagerTookOutFunds: [AssetManagerTookOutFunds!]!
+    @derivedFrom(field: "amoEventsSummary")
+  assetManagerTookOutFundssCount: BigInt!
+  tokensChangedInCore: [TokensChangedInCore!]!
+    @derivedFrom(field: "amoEventsSummary")
+  tokensChangedInCoresCount: BigInt!
+}
+
+type AssetDeltasOnDmmSwap {
+  id: ID!
+  tokenA: String!
+  tokenB: String!
+  tokenC: String!
+  amountA: BigInt!
+  amountB: BigInt!
+  amountC: BigInt!
+  blockTimestamp: Int!
+  transactionHash: String!
+  amoEventsSummary: String!
+}
+
+type AssetManagerPutInFunds {
+  id: ID!
+  poolId: String!
+  tokenAddress: String!
+  amount: BigInt!
+  transactionHash: String!
+  amoEventsSummary: String!
+}
+
+type AssetManagerTookOutFunds {
+  id: ID!
+  poolId: String!
+  tokenAddress: String!
+  amount: BigInt!
+  transactionHash: String!
+  amoEventsSummary: String!
+}
+
+type TokensChangedInCore {
+  id: ID!
+  tokenIn: String!
+  tokenOut: String!
+  amount: BigInt!
+  amountOut: BigInt!
+  transactionHash: String!
+  amoEventsSummary: String!
+}
+
+# DusReserve -----------------------------------------------------------
+
+type DusReserveEventsSummary {
+  id: ID!
+  dusYield: [DusYield!]! @derivedFrom(field: "dusReserveEventsSummary")
+  dusYieldCount: BigInt!
+}
+
+type DusYield {
+  id: ID!
+  dusYield: BigInt!
+  yieldPercentage: BigInt!
+  transactionHash: String!
+  blockTimestamp: Int!
+  dusReserveEventsSummary: String!
+}
+
+# AmoDusUsdcSupplyManager ----------------
+
+type AmoDusUsdcSupplyManagerEventsSummary {
+  id: ID!
+  dusUsdcSupplyManagerExecutedIncreasingDus: [DusUsdcSupplyManagerExecutedIncreasingDus!]!
+    @derivedFrom(field: "amoDusUsdcSupplyManagerEventsSummary")
+  dusUsdcSupplyManagerExecutedIncreasingDusCount: BigInt!
+  dusUsdcSupplyManagerExecutedDecreasingDus: [DusUsdcSupplyManagerExecutedDecreasingDus!]!
+    @derivedFrom(field: "amoDusUsdcSupplyManagerEventsSummary")
+  dusUsdcSupplyManagerExecutedDecreasingDusCount: BigInt!
+}
+
+type DusUsdcSupplyManagerExecutedIncreasingDus {
+  id: ID!
+  ducaReceived: BigInt!
+  dusIncreased: BigInt!
+  usdcDecreased: BigInt!
+  dcmSent: BigInt!
+  blockTimestamp: Int!
+  transactionHash: String!
+  amoDusUsdcSupplyManagerEventsSummary: String!
+}
+
+type DusUsdcSupplyManagerExecutedDecreasingDus {
+  id: ID!
+  dcmReceived: BigInt!
+  usdcIncreased: BigInt!
+  dusDecreased: BigInt!
+  ducaSent: BigInt!
+  blockTimestamp: Int!
+  transactionHash: String!
+  amoDusUsdcSupplyManagerEventsSummary: String!
+}
